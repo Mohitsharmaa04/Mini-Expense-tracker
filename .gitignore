@@ -1,2 +1,7 @@
 Frontend/node_modules
 Backend/node_modules
+.env
+Backend/.env
+Frontend/.env
+*.log
+.DS_Store
