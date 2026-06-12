@@ -62,7 +62,67 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 3. UPDATE AN EXPENSE
+// 3. GET SUMMARY STATISTICS
+// Route: GET /api/expenses/summary
+router.get('/summary', async (req, res) => {
+  try {
+    const now = new Date();
+    // Get start of the current month
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    // Get end of the current month
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+    // A. Total expenses this calendar month
+    const totalThisMonthArr = await Expense.aggregate([
+      {
+        $match: {
+          date: { $gte: startOfMonth, $lte: endOfMonth }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$amount' }
+        }
+      }
+    ]);
+    const totalThisMonth = totalThisMonthArr.length > 0 ? totalThisMonthArr[0].total : 0;
+
+    // B. Expenses per category (overall breakdown)
+    const categoryBreakdown = await Expense.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          total: { $sum: '$amount' }
+        }
+      },
+      { $sort: { total: -1 } }
+    ]);
+    const formattedCategoryBreakdown = categoryBreakdown.map(item => ({
+      category: item._id,
+      total: item.total
+    }));
+
+    // C. Highest single expense this month
+    const highestThisMonth = await Expense.findOne({
+      date: { $gte: startOfMonth, $lte: endOfMonth }
+    }).sort({ amount: -1 });
+
+    // D. Highest single expense overall
+    const highestOverall = await Expense.findOne().sort({ amount: -1 });
+
+    res.json({
+      totalThisMonth,
+      categoryBreakdown: formattedCategoryBreakdown,
+      highestThisMonth,
+      highestOverall
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error while calculating summary', error: error.message });
+  }
+});
+
+// 4. UPDATE AN EXPENSE
 // Route: PUT /api/expenses/:id
 router.put('/:id', async (req, res) => {
   try {
