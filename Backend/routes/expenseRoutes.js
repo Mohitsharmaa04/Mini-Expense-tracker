@@ -6,8 +6,30 @@ const Expense = require('../models/Expense');
 // Route: GET /api/expenses
 router.get('/', async (req, res) => {
   try {
-    // Fetch all expenses and sort by date (newest first)
-    const expenses = await Expense.find().sort({ date: -1 });
+    const { category, startDate, endDate } = req.query;
+    const query = {};
+
+    // 1. Filter by category if provided
+    if (category) {
+      query.category = category;
+    }
+
+    // 2. Filter by date range if provided
+    if (startDate || endDate) {
+      query.date = {};
+      if (startDate) {
+        query.date.$gte = new Date(startDate);
+      }
+      if (endDate) {
+        // Set end of the day (23:59:59.999) to include the entire end date
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        query.date.$lte = end;
+      }
+    }
+
+    // Fetch filtered expenses and sort by date (newest first)
+    const expenses = await Expense.find(query).sort({ date: -1 });
     res.json(expenses);
   } catch (error) {
     res.status(500).json({ message: 'Server error while fetching expenses', error: error.message });
