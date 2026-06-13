@@ -4,6 +4,7 @@ import ExpenseTable from './components/ExpenseTable';
 import FilterBar from './components/FilterBar';
 import SummaryPanel from './components/SummaryPanel';
 import ExpenseChart from './components/ExpenseChart';
+import BudgetManager from './components/BudgetManager';
 import { Wallet } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5001/api/expenses';
@@ -158,6 +159,7 @@ function App() {
             onCancelEdit={() => setEditingExpense(null)}
           />
           {summary && <ExpenseChart categoryBreakdown={summary.categoryBreakdown} />}
+          {summary && <BudgetManager categoryBreakdown={summary.categoryBreakdown} />}
         </div>
 
         {/* Expense Table Panel (with Filter Bar) */}
