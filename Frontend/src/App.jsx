@@ -3,6 +3,7 @@ import ExpenseForm from './components/ExpenseForm';
 import ExpenseTable from './components/ExpenseTable';
 import FilterBar from './components/FilterBar';
 import SummaryPanel from './components/SummaryPanel';
+import ExpenseChart from './components/ExpenseChart';
 import { Wallet } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5001/api/expenses';
@@ -149,13 +150,14 @@ function App() {
 
       {/* Main Grid */}
       <div className="dashboard-grid">
-        {/* Form panel */}
-        <div>
+        {/* Form and Chart panel */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <ExpenseForm
             onSubmit={handleFormSubmit}
             editingExpense={editingExpense}
             onCancelEdit={() => setEditingExpense(null)}
           />
+          {summary && <ExpenseChart categoryBreakdown={summary.categoryBreakdown} />}
         </div>
 
         {/* Expense Table Panel (with Filter Bar) */}
