@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseTable from './components/ExpenseTable';
 import FilterBar from './components/FilterBar';
+import SummaryPanel from './components/SummaryPanel';
 import { Wallet } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5001/api/expenses';
@@ -11,6 +12,7 @@ function App() {
   const [editingExpense, setEditingExpense] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [summary, setSummary] = useState(null);
 
   // Filter States
   const [categoryFilter, setCategoryFilter] = useState('');
@@ -40,9 +42,23 @@ function App() {
     }
   };
 
+  // Fetch summary statistics
+  const fetchSummary = async () => {
+    try {
+      const summaryUrl = `${API_BASE}/summary`;
+      const res = await fetch(summaryUrl);
+      if (!res.ok) throw new Error('Failed to fetch summary');
+      const data = await res.json();
+      setSummary(data);
+    } catch (err) {
+      console.error('Error fetching summary:', err);
+    }
+  };
+
   // Trigger fetch when filters change
   useEffect(() => {
     fetchExpenses();
+    fetchSummary();
   }, [categoryFilter, startDateFilter, endDateFilter]);
 
   // Reset all filters
@@ -80,6 +96,7 @@ function App() {
         }
       }
       fetchExpenses(); // Refresh the list
+      fetchSummary();  // Refresh the stats
     } catch (err) {
       alert(err.message);
     }
@@ -94,6 +111,7 @@ function App() {
       });
       if (!res.ok) throw new Error('Failed to delete expense');
       fetchExpenses(); // Refresh the list
+      fetchSummary();  // Refresh the stats
     } catch (err) {
       alert(err.message);
     }
@@ -125,6 +143,9 @@ function App() {
           {error}
         </div>
       )}
+
+      {/* Summary Cards Panel */}
+      {summary && <SummaryPanel summary={summary} />}
 
       {/* Main Grid */}
       <div className="dashboard-grid">
