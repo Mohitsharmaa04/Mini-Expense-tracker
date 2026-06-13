@@ -105,7 +105,7 @@ const ExpenseForm = ({ onSubmit, editingExpense, onCancelEdit }) => {
   };
 
   return (
-    <div className="card animate-fade-in">
+    <div className="card card-form animate-fade-in">
       <div className="card-title">
         {editingExpense ? (
           <>

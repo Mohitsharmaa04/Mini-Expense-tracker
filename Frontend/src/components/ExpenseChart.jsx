@@ -21,7 +21,7 @@ const ExpenseChart = ({ categoryBreakdown }) => {
 
   if (!categoryBreakdown || categoryBreakdown.length === 0) {
     return (
-      <div className="card" style={{ 
+      <div className="card card-chart" style={{ 
         textAlign: 'center', 
         padding: '3rem 1.5rem', 
         color: 'var(--text-secondary)',
@@ -83,7 +83,7 @@ const ExpenseChart = ({ categoryBreakdown }) => {
   }));
 
   return (
-    <div className="card animate-fade-in" style={{ minHeight: '360px', display: 'flex', flexDirection: 'column' }}>
+    <div className="card card-chart animate-fade-in" style={{ minHeight: '360px', display: 'flex', flexDirection: 'column' }}>
       {/* Chart Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h3 className="card-title" style={{ margin: 0 }}>

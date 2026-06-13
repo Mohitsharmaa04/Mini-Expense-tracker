@@ -99,31 +99,107 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-secondary);
 }
 
-/* Standard Premium Card */
+/* Standard Premium Card with Glassmorphism */
 .card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(135deg, hsla(250, 20%, 13%, 0.7) 0%, hsla(250, 20%, 9%, 0.8) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid hsla(250, 12%, 22%, 0.6);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
   position: relative;
   overflow: hidden;
 }
 
 .card:hover {
-  border-color: hsla(175, 80%, 45%, 0.3);
-  box-shadow: var(--shadow-md);
+  border-color: hsla(175, 80%, 45%, 0.4);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), 0 0 20px 0 hsla(175, 80%, 45%, 0.1);
+  transform: translateY(-2px);
 }
 
 .card-title {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--text-primary);
+  font-family: var(--font-heading);
+}
+
+/* Card Type Overrides & Accent Borders */
+.card-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), hsl(265, 85%, 65%));
+}
+
+.card-table::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-success));
+}
+
+.card-budget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-warning), var(--accent-danger));
+}
+
+.card-chart::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, hsl(265, 85%, 65%), var(--accent-primary));
+}
+
+/* Metric / Summary Glowing Cards */
+.card-metric-total {
+  background: linear-gradient(135deg, hsla(150, 75%, 15%, 0.25) 0%, hsla(250, 20%, 9%, 0.8) 100%) !important;
+  border: 1px solid hsla(150, 75%, 45%, 0.25) !important;
+}
+
+.card-metric-total:hover {
+  border-color: var(--accent-success) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), 0 0 25px 0 hsla(150, 75%, 48%, 0.15) !important;
+}
+
+.card-metric-highest {
+  background: linear-gradient(135deg, hsla(38, 95%, 15%, 0.25) 0%, hsla(250, 20%, 9%, 0.8) 100%) !important;
+  border: 1px solid hsla(38, 95%, 55%, 0.25) !important;
+}
+
+.card-metric-highest:hover {
+  border-color: var(--accent-warning) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), 0 0 25px 0 hsla(38, 95%, 55%, 0.15) !important;
+}
+
+.card-metric-top {
+  background: linear-gradient(135deg, hsla(265, 85%, 20%, 0.25) 0%, hsla(250, 20%, 9%, 0.8) 100%) !important;
+  border: 1px solid hsla(265, 85%, 65%, 0.25) !important;
+}
+
+.card-metric-top:hover {
+  border-color: hsl(265, 85%, 65%) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), 0 0 25px 0 hsla(265, 85%, 65%, 0.15) !important;
 }
 
 /* Dashboard Grids */

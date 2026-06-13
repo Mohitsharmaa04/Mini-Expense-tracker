@@ -33,7 +33,7 @@ const ExpenseTable = ({ expenses, onEdit, onDelete }) => {
 
   if (expenses.length === 0) {
     return (
-      <div className="card" style={{ textAlign: 'center', padding: '3rem 1.5rem', color: 'var(--text-secondary)' }}>
+      <div className="card card-table" style={{ textAlign: 'center', padding: '3rem 1.5rem', color: 'var(--text-secondary)' }}>
         <ClipboardList size={40} style={{ marginBottom: '1rem', color: 'var(--text-muted)' }} />
         <p>No transactions found. Adjust your filters or add a new expense!</p>
       </div>
@@ -41,7 +41,7 @@ const ExpenseTable = ({ expenses, onEdit, onDelete }) => {
   }
 
   return (
-    <div className="card animate-fade-in" style={{ padding: '1.25rem' }}>
+    <div className="card card-table animate-fade-in" style={{ padding: '1.25rem' }}>
       <div className="card-title">
         <ClipboardList size={18} />
         Transactions

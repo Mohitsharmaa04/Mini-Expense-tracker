@@ -37,7 +37,7 @@ const SummaryPanel = ({ summary }) => {
     }} className="animate-fade-in">
       
       {/* CARD 1: Monthly Total */}
-      <div className="card" style={{
+      <div className="card card-metric-total" style={{
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -73,7 +73,7 @@ const SummaryPanel = ({ summary }) => {
       </div>
 
       {/* CARD 2: Highest Expense */}
-      <div className="card" style={{
+      <div className="card card-metric-highest" style={{
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -124,7 +124,7 @@ const SummaryPanel = ({ summary }) => {
       </div>
 
       {/* CARD 3: Top Category */}
-      <div className="card" style={{
+      <div className="card card-metric-top" style={{
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
