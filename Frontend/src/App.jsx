@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseTable from './components/ExpenseTable';
+import FilterBar from './components/FilterBar';
 import { Wallet } from 'lucide-react';
 
 const API_BASE = 'http://localhost:5001/api/expenses';
@@ -11,11 +12,22 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch all expenses from backend
+  // Filter States
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [startDateFilter, setStartDateFilter] = useState('');
+  const [endDateFilter, setEndDateFilter] = useState('');
+
+  // Fetch expenses with active filters
   const fetchExpenses = async () => {
     setLoading(true);
     try {
-      const res = await fetch(API_BASE);
+      const queryParams = new URLSearchParams();
+      if (categoryFilter) queryParams.append('category', categoryFilter);
+      if (startDateFilter) queryParams.append('startDate', startDateFilter);
+      if (endDateFilter) queryParams.append('endDate', endDateFilter);
+
+      const url = `${API_BASE}?${queryParams.toString()}`;
+      const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch expenses');
       const data = await res.json();
       setExpenses(data);
@@ -28,9 +40,17 @@ function App() {
     }
   };
 
+  // Trigger fetch when filters change
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [categoryFilter, startDateFilter, endDateFilter]);
+
+  // Reset all filters
+  const resetFilters = () => {
+    setCategoryFilter('');
+    setStartDateFilter('');
+    setEndDateFilter('');
+  };
 
   // Handle adding or editing an expense
   const handleFormSubmit = async (formData) => {
@@ -117,8 +137,17 @@ function App() {
           />
         </div>
 
-        {/* Expense Table Panel */}
-        <div>
+        {/* Expense Table Panel (with Filter Bar) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <FilterBar
+            selectedCategory={categoryFilter}
+            setSelectedCategory={setCategoryFilter}
+            startDate={startDateFilter}
+            setStartDate={setStartDateFilter}
+            endDate={endDateFilter}
+            setEndDate={setEndDateFilter}
+            onReset={resetFilters}
+          />
           <ExpenseTable
             expenses={expenses}
             onEdit={setEditingExpense}
