@@ -151,15 +151,13 @@ function App() {
 
       {/* Main Grid */}
       <div className="dashboard-grid">
-        {/* Form and Chart panel */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {/* Form panel */}
+        <div>
           <ExpenseForm
             onSubmit={handleFormSubmit}
             editingExpense={editingExpense}
             onCancelEdit={() => setEditingExpense(null)}
           />
-          {summary && <ExpenseChart categoryBreakdown={summary.categoryBreakdown} />}
-          {summary && <BudgetManager categoryBreakdown={summary.categoryBreakdown} />}
         </div>
 
         {/* Expense Table Panel (with Filter Bar) */}
@@ -181,6 +179,14 @@ function App() {
           />
         </div>
       </div>
+
+      {/* Analytics Grid: Budget on Left, Chart on Right */}
+      {summary && (
+        <div className="analytics-grid" style={{ marginTop: '1.5rem' }}>
+          <BudgetManager categoryBreakdown={summary.categoryBreakdown} />
+          <ExpenseChart categoryBreakdown={summary.categoryBreakdown} />
+        </div>
+      )}
     </div>
   );
 }
