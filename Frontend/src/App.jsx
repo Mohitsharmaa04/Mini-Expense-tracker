@@ -7,7 +7,9 @@ import ExpenseChart from './components/ExpenseChart';
 import BudgetManager from './components/BudgetManager';
 import { Wallet } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5001/api/expenses';
+const API_BASE = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api/expenses` 
+  : 'http://localhost:5001/api/expenses';
 
 function App() {
   const [expenses, setExpenses] = useState([]);

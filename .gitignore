@@ -5,3 +5,4 @@ Backend/.env
 Frontend/.env
 *.log
 .DS_Store
+Frontend/dist
