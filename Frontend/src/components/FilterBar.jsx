@@ -1,5 +1,5 @@
 import React from 'react';
-import { Filter, RotateCcw } from 'lucide-react';
+import { Filter, RotateCcw, Download } from 'lucide-react';
 
 const CATEGORIES = [
   'Food',
@@ -19,8 +19,47 @@ const FilterBar = ({
   setStartDate, 
   endDate, 
   setEndDate, 
-  onReset 
+  onReset,
+  expenses
 }) => {
+
+  // Export visible (filtered) expenses to a CSV file
+  const handleExportCSV = () => {
+    if (!expenses || expenses.length === 0) {
+      alert('No data to export!');
+      return;
+    }
+
+    // CSV Headers
+    const headers = ['Date', 'Category', 'Amount (INR)', 'Note'];
+    
+    // CSV Rows
+    const rows = expenses.map(exp => {
+      // Format date
+      const dateStr = new Date(exp.date).toLocaleDateString('en-IN');
+      // Escape note quotes
+      const noteStr = exp.note ? `"${exp.note.replace(/"/g, '""')}"` : '';
+      return [dateStr, exp.category, exp.amount, noteStr];
+    });
+
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+
+    // Create a Blob and trigger direct browser download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `expenses_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="card animate-fade-in" style={{ padding: '1rem 1.25rem' }}>
       <div style={{
@@ -41,7 +80,7 @@ const FilterBar = ({
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
-          gap: '1rem',
+          gap: '1.25rem',
           flex: 1,
           justifyContent: 'flex-end'
         }}>
@@ -102,6 +141,28 @@ const FilterBar = ({
             >
               <RotateCcw size={12} />
               Reset
+            </button>
+          )}
+
+          {/* Export CSV button */}
+          {expenses && expenses.length > 0 && (
+            <button
+              onClick={handleExportCSV}
+              className="btn btn-secondary"
+              style={{
+                padding: '0.5rem 0.75rem',
+                fontSize: '0.85rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                borderRadius: 'var(--radius-sm)',
+                borderColor: 'var(--accent-primary)',
+                color: 'var(--accent-primary)'
+              }}
+              title="Export visible expenses to CSV"
+            >
+              <Download size={12} />
+              Export
             </button>
           )}
         </div>

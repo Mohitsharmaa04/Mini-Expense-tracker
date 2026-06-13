@@ -170,6 +170,7 @@ function App() {
             endDate={endDateFilter}
             setEndDate={setEndDateFilter}
             onReset={resetFilters}
+            expenses={expenses}
           />
           <ExpenseTable
             expenses={expenses}
