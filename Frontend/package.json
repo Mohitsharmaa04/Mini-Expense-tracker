@@ -18,5 +18,11 @@
   },
   "engines": {
     "node": "20.x"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.61.1",
+    "@rollup/rollup-linux-arm64-gnu": "4.61.1",
+    "@rollup/rollup-linux-x64-musl": "4.61.1",
+    "@rollup/rollup-linux-arm64-musl": "4.61.1"
   }
 }
