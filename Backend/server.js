@@ -14,14 +14,7 @@ app.use(express.json());
 
 // Basic Route
 app.get('/', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    message: 'Welcome to the Premium Expense Tracker API',
-    endpoints: {
-      health: '/api/health',
-      expenses: '/api/expenses'
-    }
-  });
+  res.send('API is running');
 });
 
 app.get('/api/health', (req, res) => {
