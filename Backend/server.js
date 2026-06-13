@@ -13,6 +13,17 @@ app.use(cors());
 app.use(express.json());
 
 // Basic Route
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Welcome to the Premium Expense Tracker API',
+    endpoints: {
+      health: '/api/health',
+      expenses: '/api/expenses'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
